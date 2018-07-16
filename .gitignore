@@ -1,0 +1,10 @@
+public
+themes
+dev
+.git
+.DS_Store
+*.bak
+*_bak
+*.old
+*.log
+yes
