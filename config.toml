@@ -125,7 +125,7 @@ defaultContentLanguage = "en"           # Default language to use
 
   [params.gitment]          # Gitment is a comment system based on GitHub issues. see https://github.com/imsun/gitment
     owner = "LonglyCode"              # Your GitHub ID
-    repo = "LonglyCode/comment-for-blog"               # The repo to store comments
+    repo = "comment-for-blog"               # The repo to store comments
     clientId = "b1189abdf769cc002fba"                               # Your client ID
     clientSecret = "4285e358178cdcf7f128371b332319249c1fbdda"       # Your client secret
 
