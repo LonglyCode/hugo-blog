@@ -2,6 +2,7 @@
 ---
 title: Linux使用的点点滴滴
 date: 2018-07-17 11:48:14
+lastmod: 2018-07-19 17:06:11
 draft: false
 tags: ["linux", "tutorial"]
 
@@ -37,9 +38,22 @@ tags: ["linux", "tutorial"]
 11. tcpdump
 12. dig
 13. 用sed命令批量替换某个路径下的字符， `grep 原字符串 -rl 所在目录` | xargs sed -i "s/原字符串/新字符串/g"`
+14. 使用`httpie`替代curl或者postman，可以将request data 通过管道导入， `cat xxxx.json | sudo http -b POST :8080/xxxxx/xxxx\?token=kjl\&uid=uid2`
+
 
 ## 备忘
 1. emacs直接安装需要安装依赖: `sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libgtk2.0-dev libncurses-dev`
 2. svn 进行某一部分的目录单独更新：一，对父目录进行` svn checkout svn://svn.oa.com/SrcCodes/trunk/ --depth 'immediates'`，二，到对应的想更新的路径操作`svn up --set-depth 'infinity'`
 3. 查看mysql数据库对应的用户和ip的权限: `select DISTINCT(`GRANTEE`) from `information_schema`.`USER_PRIVILEGES`;`
 4. 设置用户mysql权限 `GRANT insert,update,select,delect PRIVILEGES ON <dbname>.* TO 'user@'192.168.%.%' identified by 'password';`
+5. mysql 安装和使用：
+    - apt-get install mysql-server
+    - apt-get install mysql-client
+    - apt-get install python-mysqldb
+    接着使用`mysql -u root -p`进入客户端，然后输入密码，记得安装过程会提示你输入密码；`create database [databasename]`，注意mysql需要设置为中文，加后缀`create database [databasename] character set gbk` 
+6. 在新的设备上把SSH密钥添加到个人github账号的方式：`ssh-keygen -t rsa -C your@email.com`
+7. 设置autojump，一般从github上下载源码，然后在`.zshrc`文件下添加autojump插件，最重要的是要添加下面两句:
+``` shell
+[[ -s /home/xxxx/.autojump/etc/profile.d/autojump.sh ]] && source /home/xxxx/.autojump/etc/profile.d/autojump.sh
+```
+最后运行 `source .zshrc`。

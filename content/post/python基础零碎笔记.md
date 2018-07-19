@@ -1,6 +1,7 @@
 ---
 title: python基础零碎笔记
 date: 2016-01-20 11:54:22
+lastmod: 2018-07-19 17:16:11
 tags: ["python", "note"]
 
 ---
@@ -119,3 +120,24 @@ Out[27]: dict_items([('e', 8), ('b', 2), ('c', 4), ('a', 1)])
 
 1.  sorted(a, key=lambda result: result[0],reverse=True) ，这个排序居然跟 lisp 里面很像，基本抄过来的。在 key 里面定义一个匿名函数，在函数里面自定排序规则，因为输入参数默认为 a（sorted 的第一个参数），所以使用匿名函数时可以使用 map 等提取单独元素，完整方法以及参数 sorted(data, cmp=None, key=None, reverse=False)
 2.  operator.itemgetter函数获取的不是值，而是定义了一个函数，通过该函数作用到对象上才能获取值。所以sorted(aa.items(),key=itemgetter(1)) 是对字典 aa 的value值进行排序，使用之前 from operator import itemgetter
+
+## 10. yield from 
+    yield from 更像是一种约定，把异步任务以协程发出去，然后等待结果返回，可以在结果返回上下文做文章。至于怎么知道结果到了，就需要事件循环来调度，某种任务协议来驱动。
+ps：更像执行体和调用方直接建立了管道。
+
+## 11. 可变对象copy
+`b = range(9);a=[];a[:]=b等同于a=copy.decopy(b)`
+
+## 12. 将某个包全局化
+(不建议这么做)
+`import site;site.getsitepackages()`可以看到安装系统package的位置，`.pth`结尾的文件可以将本地python包的绝对位置暴露给全局，把`.pth`文件放到 `site.getsitepackages`所返回的路径当中即可。`sys.path`返回的是`PYTHONPATH`变量指向的位置。
+
+## 13. 关于`__import__` 
+`__import__`方法其实就是import的原型，只不过前者接收的是字符串，而且在导入package.module，返回的是package而不是module，建议用importlib中的import_module替代。`sys.modules`是一个包含了当前解释器的所有导入模块的字典。
+
+## 14. pkgutil
+ 如果要获取包里面的所有模块列表，不应该用 os.listdir()，而是 pkgutil 模块。
+
+## 15. 关于闭包
+至少有两种主要方式来捕获和保存状态信息,你可以在一个对象实例 (通过一个绑定方法) 或者在一个闭包中保存它。
+
