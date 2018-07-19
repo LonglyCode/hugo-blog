@@ -57,7 +57,7 @@ Out[7]: 'w;o;h;e;n;i'
 ### 字符串的反转
 
     > 是一个技巧性的方法
-    > a为字符串，a[::-2]用切片可以达到reverse的效果
+    > a为字符串，a[::-1]用切片可以达到reverse的效果
 
 ## 6. 各种判断和比较
 
@@ -95,6 +95,7 @@ Out[17]: {'a': 0, 'b': 1}
 
 *   用视图来判断两个字典的差异，即viewitems,具体用法如下:
     在 Python 2.x 里面，iteritems() 和 viewitems() 这两个方法都已经废除了，而 item() 得到的结果是和 2.x 里面 viewitems() 一致的。以下代码在python3.4中测试。
+
 ```python
 n[18]: d = dict(a=1,b=2,c=4)
 In[19]: d2 = dict(a=1,b=2,c=3)
@@ -116,5 +117,5 @@ Out[27]: dict_items([('e', 8), ('b', 2), ('c', 4), ('a', 1)])
 
 ## 9. sorted方法和使用
 
-> 1.  sorted(a, key=lambda result: result[0],reverse=True) ，这个排序居然跟 lisp 里面很像，基本抄过来的。在 key 里面定义一个匿名函数，在函数里面自定排序规则，因为输入参数默认为 a（sorted 的第一个参数），所以使用匿名函数时可以使用 map 等提取单独元素，完整方法以及参数 sorted(data, cmp=None, key=None, reverse=False)
-> 2.  operator.itemgetter函数获取的不是值，而是定义了一个函数，通过该函数作用到对象上才能获取值。所以sorted(aa.items(),key=itemgetter(1)) 是对字典 aa 的value值进行排序，使用之前 from operator import itemgetter
+1.  sorted(a, key=lambda result: result[0],reverse=True) ，这个排序居然跟 lisp 里面很像，基本抄过来的。在 key 里面定义一个匿名函数，在函数里面自定排序规则，因为输入参数默认为 a（sorted 的第一个参数），所以使用匿名函数时可以使用 map 等提取单独元素，完整方法以及参数 sorted(data, cmp=None, key=None, reverse=False)
+2.  operator.itemgetter函数获取的不是值，而是定义了一个函数，通过该函数作用到对象上才能获取值。所以sorted(aa.items(),key=itemgetter(1)) 是对字典 aa 的value值进行排序，使用之前 from operator import itemgetter

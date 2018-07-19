@@ -36,7 +36,10 @@ tags: ["linux", "tutorial"]
 10. vimdiff 对于的熟悉vim的人进行两个文件临时diff简直是神器
 11. tcpdump
 12. dig
+13. 用sed命令批量替换某个路径下的字符， `grep 原字符串 -rl 所在目录` | xargs sed -i "s/原字符串/新字符串/g"`
 
 ## 备忘
 1. emacs直接安装需要安装依赖: `sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libgtk2.0-dev libncurses-dev`
 2. svn 进行某一部分的目录单独更新：一，对父目录进行` svn checkout svn://svn.oa.com/SrcCodes/trunk/ --depth 'immediates'`，二，到对应的想更新的路径操作`svn up --set-depth 'infinity'`
+3. 查看mysql数据库对应的用户和ip的权限: `select DISTINCT(`GRANTEE`) from `information_schema`.`USER_PRIVILEGES`;`
+4. 设置用户mysql权限 `GRANT insert,update,select,delect PRIVILEGES ON <dbname>.* TO 'user@'192.168.%.%' identified by 'password';`
