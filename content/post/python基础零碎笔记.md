@@ -1,7 +1,7 @@
 ---
 title: python基础零碎笔记
 date: 2016-01-20 11:54:22
-lastmod: 2018-07-19 17:16:11
+lastmod: 2018-07-26 15:16:11
 tags: ["python", "note"]
 
 ---
@@ -116,6 +116,17 @@ In[27]: v1
 Out[27]: dict_items([('e', 8), ('b', 2), ('c', 4), ('a', 1)])
 ```
 
+### setdefault和defaultdict的用法
+1. 对字典设置默认值，如果已经存在就直接返回已有值，不存在就设置
+2. 按某个关键字进行分组收集
+3. defaultdict 其实是生成工厂
+
+```python
+from collections import defaultdict
+def tree():
+    return defaultdict(tree)
+```
+
 ## 9. sorted方法和使用
 
 1.  sorted(a, key=lambda result: result[0],reverse=True) ，这个排序居然跟 lisp 里面很像，基本抄过来的。在 key 里面定义一个匿名函数，在函数里面自定排序规则，因为输入参数默认为 a（sorted 的第一个参数），所以使用匿名函数时可以使用 map 等提取单独元素，完整方法以及参数 sorted(data, cmp=None, key=None, reverse=False)
@@ -141,3 +152,69 @@ ps：更像执行体和调用方直接建立了管道。
 ## 15. 关于闭包
 至少有两种主要方式来捕获和保存状态信息,你可以在一个对象实例 (通过一个绑定方法) 或者在一个闭包中保存它。
 
+## 16. yield 常用用法
+### 大量数据迭代，节省内存
+
+```
+def return_l():
+    return [i for i in range(1000000)]
+
+
+def yield_l():
+    for i in range(1000000):
+        yield i
+```
+
+### 多个的字符串join
+这种用法排版比较清晰
+
+```python
+def _join(db_name, key, value):
+    yield "\n"
+    yield "INSERT INTO `{}`.`{}` (".format(db_name, key)
+    yield ") SELECT "
+    yield " FROM `{}`.`{}`;".format(db_name, key)
+    yield "\n"
+# 使用
+s = ''.join(_join("db_name", "k", "v"))
+```
+
+## 17.优雅的上下文管理
+### 自己实现一个类似, `with open` 的用法
+本质是类提供的 enter 和 exit方法
+
+```python
+class MyOpen(object):
+    def __init__(self, file_name, mode):
+        self.file_obj = open(file_name, mode)
+
+    def __enter__(self):
+        return self.file_obj
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.file_obj.close()
+        print "close the file is {}".format(self.file_obj.closed)
+```
+
+### 函数式的实现`contextlib`
+下面方法来自的`sqlalchemy`官方文档，对`session`的`commit`,`rollback`,`close`结合使用，在实际项目中可以直接使用。
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def session_context(db_session):
+    session = db_session
+    try:
+        yield session
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+# 此处传入sqlalchemy的session
+with session_context(db_session) as session:
+    session.query("something")
+```
